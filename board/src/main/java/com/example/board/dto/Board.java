@@ -5,14 +5,14 @@ import java.time.LocalDateTime;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-//@Setter
-//@Getter
 @NoArgsConstructor
 @Data
-public class User {
+public class Board {
+	private int boardId;
+	private String title;
+	private String content;
 	private int userId;
+	private LocalDateTime regDate;
+	private int viewCnt;
 	private String name;
-	private String email;
-	private String password;
-	private LocalDateTime regdate;
 }

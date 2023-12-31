@@ -16,10 +16,17 @@ public class UserService {
 	// 서비스에서는 @Transactional 을 붙여서 하나의 tr 로 처리
 	// sprong boot는 tr을 처리해주는 관리자가 있다.(AOP)
 	@Transactional
-	public User addUser(String email, String name, String password) {
-		User user = userDao.addUser(email, name, password);
+	public User addUser(String name, String email, String password) {
+		
+		// 동일 이메일의 유저가 있으면 등록불가 체크 필요
+		User user = userDao.addUser(name, email, password);
 		userDao.mappingUserRole(user.getUserId());
 
 		return user;
+	}
+	
+	@Transactional
+	public User getUser(String email) {
+		return userDao.getUser(email);
 	}
 }
