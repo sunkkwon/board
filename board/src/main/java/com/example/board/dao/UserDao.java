@@ -1,6 +1,8 @@
 package com.example.board.dao;
 
 import java.time.LocalDateTime;
+import java.util.List;
+import java.util.Map;
 
 import javax.sql.DataSource;
 
@@ -65,4 +67,17 @@ public class UserDao {
 
 		return user;
 	}
+
+	@Transactional(readOnly = true)
+	public List<String> getRoles(int userId) {
+		String sql = "select r.name\r\n" + "from user_role ur, role r\r\n" + "where ur.role_id = r.role_id\r\n"
+				+ "and ur.user_id = :userId";
+
+		List<String> roles = jdbcTemplate.query(sql, Map.of("userId", userId), (rs, rowNum) -> {
+			return rs.getString(1);
+		});
+
+		return roles;
+	}
+
 }

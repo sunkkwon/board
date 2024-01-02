@@ -1,5 +1,7 @@
 package com.example.board.service;
 
+import java.util.List;
+
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -28,5 +30,11 @@ public class UserService {
 	@Transactional
 	public User getUser(String email) {
 		return userDao.getUser(email);
+	}
+
+	@Transactional(readOnly = true)
+	public List<String> getRoles(int userId) {
+		// TODO Auto-generated method stub
+		return userDao.getRoles(userId);
 	}
 }

@@ -1,5 +1,7 @@
 package com.example.board.controller;
 
+import java.util.List;
+
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -41,25 +43,28 @@ public class UserController {
 		return "welcome";
 	}
 
-	@GetMapping("/loginform")
-	public String loginform() {
-		return "loginform";
+	@GetMapping("/loginForm")
+	public String loginForm() {
+		return "loginForm";
 	}
 
 	@PostMapping("/login")
-	public String login(@RequestParam("email") String email, 
-			            @RequestParam("password") String passowrd,
-			            HttpSession httpSession	// spring 이 자동으로 세션객체를 넣어준다.
-			            ) {
+	public String login(@RequestParam("email") String email, @RequestParam("password") String passowrd,
+			HttpSession session // spring 이 자동으로 세션객체를 넣어준다.
+	) {
 		// TODO: process POST request
 //		System.out.println("email: "+email);
 		try {
 			User user = userService.getUser(email);
 //			System.out.println(user);
-			if(user.getPassword().equals(passowrd)) {
+			if (user.getPassword().equals(passowrd)) {
 				System.out.println("암호 정상");
 				LoginInfo loginInfo = new LoginInfo(user.getUserId(), user.getName(), user.getEmail());
-				httpSession.setAttribute("loginInfo", loginInfo);	// session에 로그인 정보가ㄴ 저장
+				// 권한정보 가져오긴
+				List<String> roles = userService.getRoles(user.getUserId());
+				loginInfo.setRoles(roles);
+				
+				session.setAttribute("loginInfo", loginInfo); // session에 로그인 정보가ㄴ 저장
 			} else {
 				throw new RuntimeException("암호 불일치");
 			}

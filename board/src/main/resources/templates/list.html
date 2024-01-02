@@ -1,14 +1,17 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
 <meta charset="UTF-8" />
-<meta http-equiv="X-UA-Compatible" content="IE=edge" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>게시판 목록보기</title>
+<title>게시판 목록</title>
 <link rel="stylesheet" href="board.css" />
+<style>
+	p {
+ 		text-align: center;
+	}
+</style>
 </head>
 <body>
-	<section class="board">
+	<section class="board-header">
 		<div class="page-title">
 			<div class="container">
 				<h3>권순길 게시판 연습 - 글 목록보기</h3>
@@ -17,13 +20,15 @@
 
 		<div class="login-info">
 			<div class="container">
-				<span class="login-info_user" th:if="${loginInfo != null}"> <span th:text="${loginInfo.name}"></span></span>
+				<span class="login-info_user" th:if="${loginInfo != null}"> [<span th:text="${loginInfo.name}"></span>]</span>
 				<span class="login-info_logout" th:if="${loginInfo != null}"> <a href="/logout"> 로그아웃</a>	</span> 
-				<span class="login-info_login" th:if="${loginInfo == null}">  <a href="/loginform"> 로그인</a>	</span> 
+				<span class="login-info_login" th:if="${loginInfo == null}">  <a href="/loginForm"> 로그인</a>	</span> 
 				<span class="login-info_join" th:if="${loginInfo == null}"> <a href="/userRegForm"> 회원가입</a></span>
 			</div>
 		</div>
+	</section>
 
+	<section class="board-body">
 		<!-- board list area -->
 		<div id="board-list">
 			<div class="container">
@@ -51,12 +56,17 @@
 				</table>
 			</div>
 			<div>
-				<a href="/writeForm" th:if="${loginInfo != null}"> 글쓰기</a> 
-				<span th:if="${loginInfo == null}"> 글쓰기</span>
+				<p>
+					<a href="/writeForm" th:if="${loginInfo != null}"> 글쓰기</a> 
+					<span th:if="${loginInfo == null}"> 글쓰기</span>
+				</p>
 			</div>
 			<div>
-				<span th:each="n : ${#numbers.sequence(1,pageCount)}"> <a th:href="@{/(page=${n})}" th:text="${n}" ></a></span>
+				<p>
+					<span th:each="n : ${#numbers.sequence(1,pageCount)}"> <a th:href="@{/(page=${n})}" th:text="${n}" ></a></span>
+				</p>
 			</div>
+			
 		</div>
 	</section>
 </body>
